@@ -50,8 +50,8 @@ _Note first time will take a a while to run for as the `oracle-xe configure` scr
 docker create volume oracle-xe
 
 docker run -d \
-  -p 32118:1521 \
-  -p 35518:5500 \
+  -p 1521:1521 \
+  -p 5500:5500 \
   --name=oracle-xe \
   --volume oracle-xe:/opt/oracle/oradata \
   --network=oracle_network \
@@ -65,8 +65,8 @@ Run parameters:
 
 Name | Required | Description 
 --- | --- | ---
-`-p 1521`| Required | TNS Listener. `32118:1521` maps `32118` on your laptop to `1521` on the container.
-`-p 5500`| Optional | Enterprise Manager (EM) Express. `35518:5500` maps `35518` to your laptop to `5500` on the container. You can then access EM via https://localhost:35518/em 
+`-p 1521`| Required | TNS Listener. `1521:1521` maps `1521` on your laptop to `1521` on the container.
+`-p 5500`| Optional | Enterprise Manager (EM) Express. `5500:5500` maps `5500` to your laptop to `5500` on the container. You can then access EM via https://localhost:5500/em 
 `--name` | Optional | Name of container. Optional but recommended
 `--volume /opt/oracle/oradata` | Optional | (recommended) If provided, data files will be stored here. If the container is destroyed can easily rebuild container using the data files.
 `--network` | Optional | If other containers need to connect to this one (ex: [ORDS](https://github.com/martindsouza/docker-ords)) then they should all be on the same docker network.
@@ -94,11 +94,11 @@ _Note `sqlcl` is an alias for [SQLcl](https://www.oracle.com/database/technologi
 
 ```bash
 -- Connect to CDB
-sqlcl sys/Oracle18@localhost:32118/XE as sysdba
+sqlcl sys/Oracle18@localhost:1521/XE as sysdba
 
 
 -- Connect to default PDB
-sqlcl sys/Oracle18@localhost:32118/XEPDB1 as sysdba
+sqlcl sys/Oracle18@localhost:1521/XEPDB1 as sysdba
 ```
 
 ### APEX Install
@@ -126,11 +126,11 @@ $ORACLE_HOME/bin/lsnrctl start
 
 _Note: Flash is required_</br>
 
-https://localhost:35518/em
+https://localhost:5500/em
 
 ### Creating a PDB
 
-First connect to the CDB as `sysdba`: `sqlcl sys/Oracle18@localhost:32118/XE as sysdba`
+First connect to the CDB as `sysdba`: `sqlcl sys/Oracle18@localhost:1521/XE as sysdba`
 
 ```sql
 -- Note XEPDB1 is created by default so demoing with XEPDB2
@@ -157,7 +157,7 @@ To connect to the new PDB :
 
 ```bash
 # Note: the password is the CDB SYS password, not the pdb_adm admin user
-sqlcl sys/Oracle18@localhost:32118/XEPDB2 as sysdba
+sqlcl sys/Oracle18@localhost:1521/XEPDB2 as sysdba
 ```
 
 ### `emp` and `dept` tables
