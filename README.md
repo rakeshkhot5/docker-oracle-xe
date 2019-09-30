@@ -36,7 +36,7 @@ git clone git@github.com:fuzziebrain/docker-oracle-xe.git
 cd docker-oracle-xe
 
 -- Copy the RPM to docker-odb18c-xe/files
-cp ~/Downloads/oracle-database-xe-18c-1.0-1.x86_64.rpm files/
+cp oracle-database-xe-18c-1.0-1.x86_64.rpm files/
 
 -- Build Image
 docker build -t oracle-xe:18c .
