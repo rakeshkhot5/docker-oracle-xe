@@ -47,11 +47,13 @@ docker build -t oracle-xe:18c .
 _Note first time will take a a while to run for as the `oracle-xe configure` script needs to complete_
 
 ```bash
+docker create volume oracle-xe
+
 docker run -d \
   -p 32118:1521 \
   -p 35518:5500 \
   --name=oracle-xe \
-  --volume ~/docker/oracle-xe:/opt/oracle/oradata \
+  --volume oracle-xe:/opt/oracle/oradata \
   --network=oracle_network \
   oracle-xe:18c
   
@@ -199,14 +201,14 @@ cp  ~/docker/oracle-xe-seed ~/docker/oracle-xe02
 # Start new containers
 docker run -d \
   --name=oracle-xe01 \
-  -p 32181:1521 \
+  -p 1522:1521 \
   --network=oracle_network \
   --volume ~/docker/oracle-xe01:/opt/oracle/oradata \
   oracle-xe:18c
 
 docker run -d \
   --name=oracle-xe02 \
-  -p 32182:1521 \
+  -p 1523:1521 \
   --network=oracle_network \
   --volume ~/docker/oracle-xe02:/opt/oracle/oradata \
   oracle-xe:18c
